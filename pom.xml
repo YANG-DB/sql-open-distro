@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>sql-open-distro</artifactId>
+    <groupId>com.yangdb</groupId>
+    <version>0.5-SNAPSHOT</version>
+
+    <licenses>
+        <license>
+            <name>The 2.0 version of the Apache License was approved by the ASF in 2004.</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <mailingLists>
+        <mailingList>
+            <name>Apache Yang.DB Developers</name>
+            <post>yang.db.dev@gmail.com</post>
+        </mailingList>
+    </mailingLists>
+
+    <developers>
+        <developer>
+            <id>Yang.DB</id>
+            <name>The Yang.DB Team</name>
+            <organization>www.yangdb.org</organization>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <top.dir>${project.basedir}</top.dir>
+        <version.major>1</version.major>
+        <version.minor>11</version.minor>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <project.inceptionYear>2016</project.inceptionYear>
+        <project.organization.name>yangdb</project.organization.name>
+        <license.licenseName>apache_v2</license.licenseName>
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+        <maven-surefire-report-plugin.version>2.22.0</maven-surefire-report-plugin.version>
+        <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
+        <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+        <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
+        <maven-checkstyle-plugin.version>2.12.1</maven-checkstyle-plugin.version>
+        <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
+        <maven-shade-plugin.version>3.1.0</maven-shade-plugin.version>
+        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+        <maven-pmd-plugin.version>3.10.0</maven-pmd-plugin.version>
+        <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+        <snapshot-replace-maven-plugin.version>1.0</snapshot-replace-maven-plugin.version>
+        <coveralls.maven.plugin>4.3.0</coveralls.maven.plugin>
+
+        <!-- fuse -->
+        <fuse.version>${project.version}</fuse.version>
+
+        <!-- jackson -->
+        <jackson.version>2.10.4</jackson.version>
+        <!-- jackson -->
+        <resilience4jVersion>1.6.1</resilience4jVersion>
+
+        <!-- commons -->
+        <commons-io.version>2.5</commons-io.version>
+        <commons-configuration.version>1.10</commons-configuration.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <commons-math3.version>3.6.1</commons-math3.version>
+        <commons-collections4.version>4.1</commons-collections4.version>
+
+        <!-- google -->
+        <google.guava.version>21.0</google.guava.version>
+        <google.guice.version>4.1.0</google.guice.version>
+
+        <!-- caffeine -->
+        <caffeine.version>2.6.2</caffeine.version>
+
+        <!-- elasticsearch -->
+        <elasticsearch.version>7.9.1</elasticsearch.version>
+        <elasticsearch.client.version>7.9.1</elasticsearch.client.version>
+
+        <!-- lucene -->
+        <lucene.version>8.6.2</lucene.version>
+
+        <!-- vividsolutions -->
+        <vividsolutions.version>1.13</vividsolutions.version>
+
+        <!-- tinkerpop -->
+        <tinkerpop.version>3.2.5</tinkerpop.version>
+
+        <javax.annotation-api>1.3.2</javax.annotation-api>
+
+        <!-- com.eaio.uuid -->
+        <com.eaio.uuid.version>3.2</com.eaio.uuid.version>
+
+        <!-- opencsv / common csv  -->
+        <commons-validator>1.6</commons-validator>
+        <commons.csv.version>1.7</commons.csv.version>
+        <opencsv.version>3.8</opencsv.version>
+        <!-- date - parser       -->
+        <dateparser>1.0.6</dateparser>
+
+        <!-- javaslang -->
+        <javaslang.version>2.0.4</javaslang.version>
+
+        <!-- jooq -->
+        <jooq.version>3.13.4</jooq.version>
+        <jool.version>0.9.14</jool.version>
+
+        <!--jooby plugin -->
+        <jooby.version>1.6.0</jooby.version>
+
+        <!--netty -->
+        <netty.version>4.1.30</netty.version>
+
+        <!-- fastutil -->
+        <fastutil.version>8.1.1</fastutil.version>
+        <!-- aviator exp eval -->
+        <aviator.version>4.2.0</aviator.version>
+
+        <!-- logging -->
+        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j-api.version>1.7.25</slf4j-api.version>
+        <logback.version>1.1.7</logback.version>
+        <log4j.version>2.7</log4j.version>
+        <logback-elasticsearch-appender.version>1.6</logback-elasticsearch-appender.version>
+
+        <!-- metrics -->
+        <metrics-core.version>3.1.2</metrics-core.version>
+
+        <json.io>4.10.1</json.io>
+        <!-- test -->
+        <junit.version>4.12</junit.version>
+        <easymock.version>3.2</easymock.version>
+        <rest-assured.version>3.0.1</rest-assured.version>
+        <mockito-core.version>3.5.0</mockito-core.version>
+        <assertj.version>3.6.2</assertj.version>
+        <jsonassert.version>1.4.0</jsonassert.version>
+        <hamcrest-all.version>1.3</hamcrest-all.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <hamcres-json.version>0.2</hamcres-json.version>
+        <maven-pgp-plugin.version>1.6</maven-pgp-plugin.version>
+        <test.containers.version>1.12.2</test.containers.version>
+
+        <!-- jmx monitoring        -->
+        <jolokia>1.6.2</jolokia>
+        <!--reflection utils-->
+        <reflection>0.9.11</reflection>
+    </properties>
+
+    <dependencies>
+        <!-- runtime -->
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.facebook.presto</groupId>
+            <artifactId>presto-matching</artifactId>
+            <version>0.242</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.2.10.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.2.10.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20200518</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-retry</artifactId>
+            <version>${resilience4jVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${commons-configuration.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>${elasticsearch.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.javaslang</groupId>
+            <artifactId>javaslang</artifactId>
+            <version>${javaslang.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <!-- runtime -->
+
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.2.10.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+            <version>${mockito-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- test -->
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkCount>1</forkCount>
+                    <threadCount>1</threadCount>
+                    <perCoreThreadCount>false</perCoreThreadCount>
+                    <rerunFailingTestsCount>0</rerunFailingTestsCount>
+                    <includes>
+                        <include>**/*Suite.java</include>
+                    </includes>
+                    <parallel>methods</parallel>
+                    <argLine>-Xmx1536m -XX:MaxPermSize=256m -Duser.timezone=${user.timezone}</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
