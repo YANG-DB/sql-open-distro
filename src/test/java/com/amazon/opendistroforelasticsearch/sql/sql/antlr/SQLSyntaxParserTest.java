@@ -19,7 +19,7 @@ package com.amazon.opendistroforelasticsearch.sql.sql.antlr;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.amazon.opendistroforelasticsearch.sql.common.antlr.SyntaxCheckException;
+import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.SyntaxCheckException;
 import org.junit.jupiter.api.Test;
 
 class SQLSyntaxParserTest {

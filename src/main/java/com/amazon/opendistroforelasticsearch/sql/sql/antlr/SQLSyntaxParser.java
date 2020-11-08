@@ -16,8 +16,8 @@
 
 package com.amazon.opendistroforelasticsearch.sql.sql.antlr;
 
-import com.amazon.opendistroforelasticsearch.sql.common.antlr.CaseInsensitiveCharStream;
-import com.amazon.opendistroforelasticsearch.sql.common.antlr.SyntaxAnalysisErrorListener;
+import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.CaseInsensitiveCharStream;
+import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.SyntaxAnalysisErrorListener;
 import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLLexer;
 import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser;
 import org.antlr.v4.runtime.CommonTokenStream;

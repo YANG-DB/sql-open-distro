@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL;
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.UnresolvedExpression;
-import com.amazon.opendistroforelasticsearch.sql.common.antlr.CaseInsensitiveCharStream;
-import com.amazon.opendistroforelasticsearch.sql.common.antlr.SyntaxAnalysisErrorListener;
+import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.CaseInsensitiveCharStream;
+import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.SyntaxAnalysisErrorListener;
 import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLLexer;
 import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser;
 import java.util.function.Function;
@@ -89,6 +89,7 @@ public class AstQualifiedNameBuilderTest {
       OpenDistroSQLParser parser = new OpenDistroSQLParser(new CommonTokenStream(lexer));
       parser.addErrorListener(new SyntaxAnalysisErrorListener());
       return parser;
+
     }
   }
 

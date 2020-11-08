@@ -16,33 +16,19 @@
 
 package com.amazon.opendistroforelasticsearch.sql.sql.parser;
 
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.and;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.booleanLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.dateLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.doubleLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.function;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.intLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.intervalLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.not;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.nullLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.or;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.qualifiedName;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.stringLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.timeLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.timestampLiteral;
-import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.window;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.amazon.opendistroforelasticsearch.sql.ast.Node;
 import com.amazon.opendistroforelasticsearch.sql.ast.expression.DataType;
-import com.amazon.opendistroforelasticsearch.sql.common.antlr.CaseInsensitiveCharStream;
-import com.amazon.opendistroforelasticsearch.sql.common.antlr.SyntaxAnalysisErrorListener;
+import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.CaseInsensitiveCharStream;
+import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.SyntaxAnalysisErrorListener;
 import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLLexer;
 import com.amazon.opendistroforelasticsearch.sql.sql.antlr.parser.OpenDistroSQLParser;
 import com.google.common.collect.ImmutableList;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.jupiter.api.Test;
+
+import static com.amazon.opendistroforelasticsearch.sql.ast.dsl.AstDSL.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AstExpressionBuilderTest {
 
