@@ -18,10 +18,12 @@ package com.amazon.opendistroforelasticsearch.sql.legacy.unittest.utils;
 import com.amazon.opendistroforelasticsearch.sql.legacy.util.TestUtils;
 import com.amazon.opendistroforelasticsearch.sql.legacy.utils.JsonPrettyFormatter;
 import com.google.common.io.Files;
+import com.google.common.io.Resources;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,15 +41,13 @@ public class PrettyFormatterTest {
 
     @Test
     public void assertFormatterOutputsPrettyJson() throws IOException {
-        String explainFormattedPrettyFilePath = TestUtils.getResourceFilePath(
-                "/src/test/resources/expectedOutput/explain_format_pretty.json");
-        String explainFormattedPretty = Files.toString(new File(explainFormattedPrettyFilePath), StandardCharsets.UTF_8);
+        URL resource = Resources.getResource("expectedOutput/explain_format_pretty.json");
+        String explainFormattedPretty = Files.toString(new File(resource.getFile()), StandardCharsets.UTF_8);
 
-        String explainFormattedOnelineFilePath = TestUtils.getResourceFilePath(
-                "/src/test/resources/explain_format_oneline.json");
-        String explainFormattedOneline = Files.toString(new File(explainFormattedOnelineFilePath), StandardCharsets.UTF_8);
+        resource = Resources.getResource("explain_format_oneline.json");
+        String explainFormattedOneline = Files.toString(new File(resource.getFile()), StandardCharsets.UTF_8);
+
         String result = JsonPrettyFormatter.format(explainFormattedOneline);
-
         assertThat(result, equalTo(explainFormattedPretty));
     }
 
