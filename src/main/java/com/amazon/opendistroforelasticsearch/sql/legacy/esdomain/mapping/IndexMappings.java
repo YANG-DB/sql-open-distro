@@ -15,8 +15,8 @@
 
 package com.amazon.opendistroforelasticsearch.sql.legacy.esdomain.mapping;
 
-import org.elasticsearch.cluster.metadata.MappingMetadata;
-import org.elasticsearch.cluster.metadata.Metadata;
+import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 
 import java.util.Map;
@@ -35,7 +35,7 @@ import static java.util.Collections.emptyMap;
  * <p>
  * Difference between response of getMapping/clusterState and getFieldMapping:
  * <p>
- * 1) MappingMetadata:
+ * 1) MappingMetaData:
  * ((Map) ((Map) (mapping.get("bank").get("account").sourceAsMap().get("properties"))).get("balance")).get("type")
  * <p>
  * 2) FieldMetadata:
@@ -55,12 +55,12 @@ public class IndexMappings implements Mappings<TypeMappings> {
         this.indexMappings = emptyMap();
     }
 
-    public IndexMappings(Metadata metaData) {
+    public IndexMappings(MetaData metaData) {
         this.indexMappings = buildMappings(metaData.indices(),
                 indexMetaData -> new TypeMappings(indexMetaData.getMappings()));
     }
 
-    public IndexMappings(ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetadata>> mappings) {
+    public IndexMappings(ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>> mappings) {
         this.indexMappings = buildMappings(mappings, TypeMappings::new);
     }
 

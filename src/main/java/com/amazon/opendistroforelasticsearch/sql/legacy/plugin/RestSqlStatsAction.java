@@ -57,6 +57,7 @@ public class RestSqlStatsAction extends BaseRestHandler {
         return "sql_stats_action";
     }
 
+/*
     @Override
     public List<Route> routes() {
         return ImmutableList.of(
@@ -64,6 +65,7 @@ public class RestSqlStatsAction extends BaseRestHandler {
                 new Route(RestRequest.Method.GET, STATS_API_ENDPOINT)
         );
     }
+*/
 
     @Override
     protected RestChannelConsumer prepareRequest(RestRequest request, NodeClient client) {

@@ -71,12 +71,14 @@ public class RestSqlSettingsAction extends BaseRestHandler {
         return "sql_settings_action";
     }
 
+/*
     @Override
     public List<Route> routes() {
         return ImmutableList.of(
                 new Route(RestRequest.Method.PUT, SETTINGS_API_ENDPOINT)
         );
     }
+*/
 
     /**
      * @see org.elasticsearch.rest.action.admin.cluster.RestClusterUpdateSettingsAction

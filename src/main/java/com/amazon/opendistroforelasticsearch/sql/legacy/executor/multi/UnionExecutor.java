@@ -15,6 +15,7 @@
 
 package com.amazon.opendistroforelasticsearch.sql.legacy.executor.multi;
 
+import com.amazon.opendistroforelasticsearch.sql.common.utils.MappingService;
 import com.amazon.opendistroforelasticsearch.sql.legacy.executor.ElasticHitsExecutor;
 import com.amazon.opendistroforelasticsearch.sql.legacy.query.multi.MultiQueryRequestBuilder;
 import com.amazon.opendistroforelasticsearch.sql.legacy.utils.Util;
@@ -70,8 +71,8 @@ public class UnionExecutor implements ElasticHitsExecutor {
             Map<String, DocumentField> documentFields = new HashMap<>();
             Map<String, DocumentField> metaFields = new HashMap<>();
             hit.getFields().forEach((fieldName, docField) ->
-                (MapperService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
-            SearchHit searchHit = new SearchHit(currentId, hit.getId(), new Text(hit.getType()), documentFields, metaFields);
+                (MappingService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
+            SearchHit searchHit = new SearchHit(currentId, hit.getId(), new Text(hit.getType()), documentFields);//, metaFields);
             searchHit.sourceRef(hit.getSourceRef());
             searchHit.getSourceAsMap().clear();
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();

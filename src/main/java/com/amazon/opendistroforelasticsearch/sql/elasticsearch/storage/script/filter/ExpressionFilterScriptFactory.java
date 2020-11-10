@@ -37,7 +37,7 @@ public class ExpressionFilterScriptFactory implements FilterScript.Factory {
     this.expression = expression;
   }
 
-  @Override
+//  @Override
   public boolean isResultDeterministic() {
     // This implies the results are cacheable
     return true;

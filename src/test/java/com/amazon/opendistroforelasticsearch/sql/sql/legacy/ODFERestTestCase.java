@@ -17,6 +17,8 @@
 package com.amazon.opendistroforelasticsearch.sql.sql.legacy;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.http.Header;
@@ -33,6 +35,7 @@ import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.common.settings.Setting;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.util.concurrent.ThreadContext;
@@ -90,9 +93,22 @@ public abstract class ODFERestTestCase extends ESRestTestCase {
     }
   }
 
+  public static Map<String, String> buildDefaultHeaders(Settings settings) {
+    Settings headers = ThreadContext.DEFAULT_HEADERS_SETTING.get(settings);
+    if (headers == null) {
+      return Collections.emptyMap();
+    } else {
+      Map<String, String> defaultHeader = new HashMap<>();
+      for (String key : headers.names()) {
+        defaultHeader.put(key, headers.get(key));
+      }
+      return Collections.unmodifiableMap(defaultHeader);
+    }
+  }
+
   protected static void configureHttpsClient(RestClientBuilder builder, Settings settings)
       throws IOException {
-    Map<String, String> headers = ThreadContext.buildDefaultHeaders(settings);
+    Map<String, String> headers = buildDefaultHeaders(settings);
     Header[] defaultHeaders = new Header[headers.size()];
     int i = 0;
     for (Map.Entry<String, String> entry : headers.entrySet()) {

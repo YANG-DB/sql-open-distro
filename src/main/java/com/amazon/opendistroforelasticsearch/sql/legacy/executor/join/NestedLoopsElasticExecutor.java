@@ -16,6 +16,7 @@
 package com.amazon.opendistroforelasticsearch.sql.legacy.executor.join;
 
 import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource;
+import com.amazon.opendistroforelasticsearch.sql.common.utils.MappingService;
 import com.amazon.opendistroforelasticsearch.sql.legacy.domain.Condition;
 import com.amazon.opendistroforelasticsearch.sql.legacy.domain.Select;
 import com.amazon.opendistroforelasticsearch.sql.legacy.domain.Where;
@@ -178,10 +179,10 @@ public class NestedLoopsElasticExecutor extends ElasticJoinExecutor {
         Map<String, DocumentField> documentFields = new HashMap<>();
         Map<String, DocumentField> metaFields = new HashMap<>();
         matchedHit.getFields().forEach((fieldName, docField) ->
-            (MapperService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
+            (MappingService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
         SearchHit searchHit = new SearchHit(currentCombinedResults, hitFromFirstTable.getId() + "|"
                 + matchedHit.getId(), new Text(hitFromFirstTable.getType() + "|" + matchedHit.getType()),
-                documentFields, metaFields);
+                documentFields);//, metaFields);
         searchHit.sourceRef(hitFromFirstTable.getSourceRef());
         searchHit.getSourceAsMap().clear();
         searchHit.getSourceAsMap().putAll(hitFromFirstTable.getSourceAsMap());

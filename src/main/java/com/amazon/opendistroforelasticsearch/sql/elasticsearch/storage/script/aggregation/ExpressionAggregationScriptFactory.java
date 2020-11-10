@@ -35,7 +35,7 @@ public class ExpressionAggregationScriptFactory implements AggregationScript.Fac
     this.expression = expression;
   }
 
-  @Override
+//  @Override
   public boolean isResultDeterministic() {
     // This implies the results are cacheable
     return true;

@@ -33,7 +33,7 @@ import org.elasticsearch.search.aggregations.support.ValuesSourceAggregationBuil
 public class MetricAggregationBuilder
     extends ExpressionNodeVisitor<AggregationBuilder, Object> {
 
-  private final AggregationBuilderHelper<ValuesSourceAggregationBuilder<?>> helper;
+  private final AggregationBuilderHelper<ValuesSourceAggregationBuilder> helper;
 
   public MetricAggregationBuilder(
       ExpressionSerializer serializer) {
@@ -77,7 +77,7 @@ public class MetricAggregationBuilder
     }
   }
 
-  private ValuesSourceAggregationBuilder<?> make(ValuesSourceAggregationBuilder<?> builder,
+  private ValuesSourceAggregationBuilder make(ValuesSourceAggregationBuilder builder,
                                                   Expression expression) {
     return helper.build(expression, builder::field, builder::script);
   }

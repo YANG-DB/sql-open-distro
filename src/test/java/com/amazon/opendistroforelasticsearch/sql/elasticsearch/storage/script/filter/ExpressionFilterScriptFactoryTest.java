@@ -55,10 +55,12 @@ class ExpressionFilterScriptFactoryTest {
 
   private final FilterScript.Factory factory = new ExpressionFilterScriptFactory(expression);
 
+/*
   @Test
   void should_return_deterministic_result() {
     assertTrue(factory.isResultDeterministic());
   }
+*/
 
   @Test
   void can_initialize_expression_filter_script() throws IOException {

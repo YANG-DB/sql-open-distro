@@ -16,6 +16,7 @@
 package com.amazon.opendistroforelasticsearch.sql.legacy.executor.join;
 
 import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource;
+import com.amazon.opendistroforelasticsearch.sql.common.utils.MappingService;
 import com.amazon.opendistroforelasticsearch.sql.legacy.domain.Field;
 import com.amazon.opendistroforelasticsearch.sql.legacy.domain.Select;
 import com.amazon.opendistroforelasticsearch.sql.legacy.domain.Where;
@@ -187,10 +188,10 @@ public class HashJoinElasticExecutor extends ElasticJoinExecutor {
                             Map<String, DocumentField> documentFields = new HashMap<>();
                             Map<String, DocumentField> metaFields = new HashMap<>();
                             matchingHit.getFields().forEach((fieldName, docField) ->
-                                (MapperService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
+                                (MappingService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
                             SearchHit searchHit = new SearchHit(matchingHit.docId(), combinedId,
                                     new Text(matchingHit.getType() + "|" + secondTableHit.getType()),
-                                    documentFields, metaFields);
+                                    documentFields);//, metaFields);
                             searchHit.sourceRef(matchingHit.getSourceRef());
                             searchHit.getSourceAsMap().clear();
                             searchHit.getSourceAsMap().putAll(matchingHit.getSourceAsMap());
@@ -248,9 +249,8 @@ public class HashJoinElasticExecutor extends ElasticJoinExecutor {
                 Map<String, DocumentField> documentFields = new HashMap<>();
                 Map<String, DocumentField> metaFields = new HashMap<>();
                 hit.getFields().forEach((fieldName, docField) ->
-                    (MapperService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
-                SearchHit searchHit = new SearchHit(resultIds, hit.getId(), new Text(hit.getType()), documentFields
-                        , metaFields);
+                    (MappingService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
+                SearchHit searchHit = new SearchHit(resultIds, hit.getId(), new Text(hit.getType()), documentFields);// , metaFields);
                 searchHit.sourceRef(hit.getSourceRef());
 
                 onlyReturnedFields(searchHit.getSourceAsMap(), firstTableRequest.getReturnedFields(),

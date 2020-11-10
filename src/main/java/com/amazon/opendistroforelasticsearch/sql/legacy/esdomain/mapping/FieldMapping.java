@@ -22,7 +22,7 @@ import com.amazon.opendistroforelasticsearch.sql.legacy.utils.StringUtils;
 import java.util.Map;
 
 import static java.util.Collections.emptyMap;
-import static org.elasticsearch.action.admin.indices.mapping.get.GetFieldMappingsResponse.FieldMappingMetadata;
+import static org.elasticsearch.action.admin.indices.mapping.get.GetFieldMappingsResponse.FieldMappingMetaData;
 
 /**
  * Field mapping that parses native ES mapping.
@@ -40,7 +40,7 @@ public class FieldMapping {
     /**
      * Native mapping information returned from ES
      */
-    private final Map<String, FieldMappingMetadata> typeMappings;
+    private final Map<String, FieldMappingMetaData> typeMappings;
 
     /**
      * Maps a field name to Field object that specified in query explicitly
@@ -52,7 +52,7 @@ public class FieldMapping {
     }
 
     public FieldMapping(String fieldName,
-                        Map<String, FieldMappingMetadata> typeMappings,
+                        Map<String, FieldMappingMetaData> typeMappings,
                         Map<String, Field> specifiedFieldByNames) {
 
         this.fieldName = fieldName;
@@ -128,7 +128,7 @@ public class FieldMapping {
      */
     @SuppressWarnings("unchecked")
     public String type() {
-        FieldMappingMetadata metaData = typeMappings.getOrDefault(fieldName, FieldMappingMetadata.NULL);
+        FieldMappingMetaData metaData = typeMappings.getOrDefault(fieldName, FieldMappingMetaData.NULL);
         if (metaData.isNull()) {
             return DescribeResultSet.DEFAULT_OBJECT_DATATYPE;
         }

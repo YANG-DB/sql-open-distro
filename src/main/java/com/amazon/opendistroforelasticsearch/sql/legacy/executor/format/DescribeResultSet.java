@@ -22,7 +22,7 @@ import com.amazon.opendistroforelasticsearch.sql.legacy.executor.format.Schema.T
 import com.carrotsearch.hppc.cursors.ObjectObjectCursor;
 import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.cluster.metadata.MappingMetadata;
+import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 
 import java.util.ArrayList;
@@ -89,17 +89,17 @@ public class DescribeResultSet extends ResultSet {
     private List<Row> loadRows() {
         List<Row> rows = new ArrayList<>();
         GetIndexResponse indexResponse = (GetIndexResponse) queryResult;
-        ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetadata>> indexMappings = indexResponse.getMappings();
+        ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>> indexMappings = indexResponse.getMappings();
 
         // Iterate through indices in indexMappings
-        for (ObjectObjectCursor<String, ImmutableOpenMap<String, MappingMetadata>> indexCursor : indexMappings) {
+        for (ObjectObjectCursor<String, ImmutableOpenMap<String, MappingMetaData>> indexCursor : indexMappings) {
             String index = indexCursor.key;
 
             if (matchesPatternIfRegex(index, statement.getIndexPattern())) {
-                ImmutableOpenMap<String, MappingMetadata> typeMapping = indexCursor.value;
+                ImmutableOpenMap<String, MappingMetaData> typeMapping = indexCursor.value;
                 // Assuming ES 6.x, iterate through the only type of the index to get mapping data
-                for (ObjectObjectCursor<String, MappingMetadata> typeCursor : typeMapping) {
-                    MappingMetadata mappingMetaData = typeCursor.value;
+                for (ObjectObjectCursor<String, MappingMetaData> typeCursor : typeMapping) {
+                    MappingMetaData mappingMetaData = typeCursor.value;
                     // Load rows for each field in the mapping
                     rows.addAll(loadIndexData(index, mappingMetaData.getSourceAsMap()));
                 }

@@ -76,10 +76,6 @@ public class RestSQLQueryAction extends BaseRestHandler {
     return "sql_query_action";
   }
 
-  @Override
-  public List<Route> routes() {
-    throw new UnsupportedOperationException("New SQL handler is not ready yet");
-  }
 
   @Override
   protected RestChannelConsumer prepareRequest(RestRequest request, NodeClient nodeClient) {

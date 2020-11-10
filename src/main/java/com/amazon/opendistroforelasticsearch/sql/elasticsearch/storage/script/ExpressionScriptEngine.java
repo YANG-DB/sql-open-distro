@@ -80,7 +80,6 @@ public class ExpressionScriptEngine implements ScriptEngine {
         + "all supported contexts [%s], given context [%s] ", CONTEXTS, context));
   }
 
-  @Override
   public Set<ScriptContext<?>> getSupportedContexts() {
     return CONTEXTS.keySet();
   }

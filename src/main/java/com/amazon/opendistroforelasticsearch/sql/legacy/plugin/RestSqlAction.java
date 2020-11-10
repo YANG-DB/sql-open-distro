@@ -105,6 +105,7 @@ public class RestSqlAction extends BaseRestHandler {
         this.newSqlQueryHandler = new RestSQLQueryAction(clusterService, pluginSettings);
     }
 
+/*
     @Override
     public List<Route> routes() {
         return ImmutableList.of(
@@ -113,6 +114,7 @@ public class RestSqlAction extends BaseRestHandler {
             new Route(RestRequest.Method.POST, CURSOR_CLOSE_ENDPOINT)
         );
     }
+*/
 
     @Override
     public String getName() {

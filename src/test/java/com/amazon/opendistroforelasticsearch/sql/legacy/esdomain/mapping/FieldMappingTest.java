@@ -16,7 +16,7 @@
 package com.amazon.opendistroforelasticsearch.sql.legacy.esdomain.mapping;
 
 import static java.util.Collections.emptyMap;
-import static org.elasticsearch.action.admin.indices.mapping.get.GetFieldMappingsResponse.FieldMappingMetadata;
+import static org.elasticsearch.action.admin.indices.mapping.get.GetFieldMappingsResponse.FieldMappingMetaData;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -98,7 +98,7 @@ public class FieldMappingTest {
                 "employee.location.city",
                 ImmutableMap.of(
                     "employee.location.city",
-                    new FieldMappingMetadata("employee.location.city", new BytesArray(
+                    new FieldMappingMetaData("employee.location.city", new BytesArray(
                         "{\n" +
                         "  \"city\" : {\n" +
                         "    \"type\" : \"text\"\n" +

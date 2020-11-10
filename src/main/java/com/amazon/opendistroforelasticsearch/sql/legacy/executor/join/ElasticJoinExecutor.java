@@ -15,6 +15,7 @@
 
 package com.amazon.opendistroforelasticsearch.sql.legacy.executor.join;
 
+import com.amazon.opendistroforelasticsearch.sql.common.utils.MappingService;
 import com.amazon.opendistroforelasticsearch.sql.legacy.domain.Field;
 import com.amazon.opendistroforelasticsearch.sql.legacy.exception.SqlParseException;
 import com.amazon.opendistroforelasticsearch.sql.legacy.executor.ElasticHitsExecutor;
@@ -216,8 +217,8 @@ public abstract class ElasticJoinExecutor implements ElasticHitsExecutor {
         Map<String, DocumentField> documentFields = new HashMap<>();
         Map<String, DocumentField> metaFields = new HashMap<>();
         hit.getFields().forEach((fieldName, docField) ->
-            (MapperService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
-        SearchHit searchHit = new SearchHit(docId, unmatchedId, unamatchedType, documentFields, metaFields);
+            (MappingService.META_FIELDS_BEFORE_7DOT8.contains(fieldName) ? metaFields : documentFields).put(fieldName, docField));
+        SearchHit searchHit = new SearchHit(docId, unmatchedId, unamatchedType, documentFields);//, metaFields);
 
         searchHit.sourceRef(hit.getSourceRef());
         searchHit.getSourceAsMap().clear();

@@ -48,6 +48,7 @@ public class AsyncRestExecutor implements RestExecutor {
     /**
      * Custom thread pool name managed by ES
      */
+    public static final String SEARCH_THREAD_POOL_NAME = "search";
     public static final String SQL_WORKER_THREAD_POOL_NAME = "sql-worker";
 
     private static final Logger LOG = LogManager.getLogger(AsyncRestExecutor.class);
@@ -145,7 +146,8 @@ public class AsyncRestExecutor implements RestExecutor {
         threadPool.schedule(
                 LogUtils.withCurrentContext(runnable),
                 new TimeValue(0L),
-                SQL_WORKER_THREAD_POOL_NAME
+                SEARCH_THREAD_POOL_NAME
+//                SQL_WORKER_THREAD_POOL_NAME
         );
     }
 
