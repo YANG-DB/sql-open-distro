@@ -29,14 +29,20 @@ import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import javax.inject.Inject;
 
 /** Elasticsearch execution engine implementation. */
-@RequiredArgsConstructor
 public class ElasticsearchExecutionEngine implements ExecutionEngine {
 
   private final ElasticsearchClient client;
 
   private final ExecutionProtector executionProtector;
+
+  @Inject
+  public ElasticsearchExecutionEngine(ElasticsearchClient client, ExecutionProtector executionProtector) {
+    this.client = client;
+    this.executionProtector = executionProtector;
+  }
 
   @Override
   public void execute(PhysicalPlan physicalPlan, ResponseListener<QueryResponse> listener) {

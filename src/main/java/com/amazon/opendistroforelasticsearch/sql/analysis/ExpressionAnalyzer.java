@@ -51,6 +51,7 @@ import java.util.stream.Collectors;
 
 import com.amazon.opendistroforelasticsearch.sql.legacy.antlr.syntax.SyntaxCheckException;
 import lombok.Getter;
+import javax.inject.Inject;
 
 /**
  * Analyze the {@link UnresolvedExpression} in the {@link AnalysisContext} to construct the {@link
@@ -61,6 +62,7 @@ public class ExpressionAnalyzer extends AbstractNodeVisitor<Expression, Analysis
   private final BuiltinFunctionRepository repository;
   private final DSL dsl;
 
+  @Inject
   public ExpressionAnalyzer(
       BuiltinFunctionRepository repository) {
     this.repository = repository;

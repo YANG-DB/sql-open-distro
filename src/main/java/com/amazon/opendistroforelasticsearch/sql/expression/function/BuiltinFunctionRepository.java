@@ -5,13 +5,17 @@ import com.amazon.opendistroforelasticsearch.sql.expression.Expression;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.amazon.opendistroforelasticsearch.sql.expression.config.ExpressionConfig;
 import lombok.RequiredArgsConstructor;
+import javax.inject.Inject;
 
 /**
  * Builtin Function Repository.
  */
 @RequiredArgsConstructor
 public class BuiltinFunctionRepository {
+
   private final Map<FunctionName, FunctionResolver> functionResolverMap;
 
   /**

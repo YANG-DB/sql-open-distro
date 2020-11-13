@@ -73,6 +73,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import javax.inject.Inject;
 
 /**
  * Analyze the {@link UnresolvedPlan} in the {@link AnalysisContext} to construct the {@link
@@ -91,6 +92,7 @@ public class Analyzer extends AbstractNodeVisitor<LogicalPlan, AnalysisContext> 
   /**
    * Constructor.
    */
+  @Inject
   public Analyzer(
       ExpressionAnalyzer expressionAnalyzer,
       StorageEngine storageEngine) {

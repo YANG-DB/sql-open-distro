@@ -35,11 +35,11 @@ import com.amazon.opendistroforelasticsearch.sql.sql.parser.AstBuilder;
 import com.amazon.opendistroforelasticsearch.sql.storage.StorageEngine;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.tree.ParseTree;
+import javax.inject.Inject;
 
 /**
  * SQL service.
  */
-@RequiredArgsConstructor
 public class SQLService {
 
   private final SQLSyntaxParser parser;
@@ -51,6 +51,15 @@ public class SQLService {
   private final ExecutionEngine executionEngine;
 
   private final BuiltinFunctionRepository repository;
+
+  @Inject
+  public SQLService(SQLSyntaxParser parser, Analyzer analyzer, StorageEngine storageEngine, ExecutionEngine executionEngine, BuiltinFunctionRepository repository) {
+    this.parser = parser;
+    this.analyzer = analyzer;
+    this.storageEngine = storageEngine;
+    this.executionEngine = executionEngine;
+    this.repository = repository;
+  }
 
   /**
    * Parse, analyze, plan and execute the query.

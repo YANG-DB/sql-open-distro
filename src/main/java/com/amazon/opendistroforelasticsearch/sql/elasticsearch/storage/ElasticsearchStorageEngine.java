@@ -21,15 +21,21 @@ import com.amazon.opendistroforelasticsearch.sql.elasticsearch.client.Elasticsea
 import com.amazon.opendistroforelasticsearch.sql.storage.StorageEngine;
 import com.amazon.opendistroforelasticsearch.sql.storage.Table;
 import lombok.RequiredArgsConstructor;
+import javax.inject.Inject;
 
 /** Elasticsearch storage engine implementation. */
-@RequiredArgsConstructor
 public class ElasticsearchStorageEngine implements StorageEngine {
 
   /** Elasticsearch client connection. */
   private final ElasticsearchClient client;
 
   private final Settings settings;
+
+  @Inject
+  public ElasticsearchStorageEngine(ElasticsearchClient client, Settings settings) {
+    this.client = client;
+    this.settings = settings;
+  }
 
   @Override
   public Table getTable(String name) {
