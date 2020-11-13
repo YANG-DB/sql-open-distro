@@ -40,6 +40,13 @@ public interface ExecutionEngine {
   void execute(PhysicalPlan plan, ResponseListener<QueryResponse> listener);
 
   /**
+   * Execute physical plan and send response synchronized.
+   * @param plan
+   * @return
+   */
+  QueryResponse execute(PhysicalPlan plan);
+
+  /**
    * Explain physical plan and call back response listener. The reason why this has to
    * be part of execution engine interface is that the physical plan probably needs to
    * be executed to get more info for profiling, such as actual execution time, rows fetched etc.
@@ -48,6 +55,15 @@ public interface ExecutionEngine {
    * @param listener response listener
    */
   void explain(PhysicalPlan plan, ResponseListener<ExplainResponse> listener);
+
+  /**
+   * Explain physical plan and call back response listener. The reason why this has to
+   * be part of execution engine interface is that the physical plan probably needs to
+   * be executed to get more info for profiling, such as actual execution time, rows fetched etc.
+   *
+   * @param plan     physical plan to explain
+   */
+  ExplainResponse explain(PhysicalPlan plan);
 
   /**
    * Data class that encapsulates ExprValue.

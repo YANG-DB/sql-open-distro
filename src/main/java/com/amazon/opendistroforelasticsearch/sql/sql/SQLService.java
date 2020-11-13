@@ -33,8 +33,8 @@ import com.amazon.opendistroforelasticsearch.sql.sql.antlr.SQLSyntaxParser;
 import com.amazon.opendistroforelasticsearch.sql.sql.domain.SQLQueryRequest;
 import com.amazon.opendistroforelasticsearch.sql.sql.parser.AstBuilder;
 import com.amazon.opendistroforelasticsearch.sql.storage.StorageEngine;
-import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.tree.ParseTree;
+
 import javax.inject.Inject;
 
 /**
@@ -42,88 +42,121 @@ import javax.inject.Inject;
  */
 public class SQLService {
 
-  private final SQLSyntaxParser parser;
+    private final SQLSyntaxParser parser;
 
-  private final Analyzer analyzer;
+    private final Analyzer analyzer;
 
-  private final StorageEngine storageEngine;
+    private final StorageEngine storageEngine;
 
-  private final ExecutionEngine executionEngine;
+    private final ExecutionEngine executionEngine;
 
-  private final BuiltinFunctionRepository repository;
+    private final BuiltinFunctionRepository repository;
 
-  @Inject
-  public SQLService(SQLSyntaxParser parser, Analyzer analyzer, StorageEngine storageEngine, ExecutionEngine executionEngine, BuiltinFunctionRepository repository) {
-    this.parser = parser;
-    this.analyzer = analyzer;
-    this.storageEngine = storageEngine;
-    this.executionEngine = executionEngine;
-    this.repository = repository;
-  }
+    @Inject
+    public SQLService(SQLSyntaxParser parser, Analyzer analyzer, StorageEngine storageEngine, ExecutionEngine executionEngine, BuiltinFunctionRepository repository) {
+        this.parser = parser;
+        this.analyzer = analyzer;
+        this.storageEngine = storageEngine;
+        this.executionEngine = executionEngine;
+        this.repository = repository;
+    }
 
-  /**
-   * Parse, analyze, plan and execute the query.
-   * @param request       SQL query request
-   * @param listener      callback listener
-   */
-  public void execute(SQLQueryRequest request, ResponseListener<QueryResponse> listener) {
-    try {
-      executionEngine.execute(
-                        plan(
+    /**
+     * Parse, analyze, plan and execute the query.
+     *
+     * @param request  SQL query request
+     * @param listener callback listener
+     */
+    public void execute(SQLQueryRequest request, ResponseListener<QueryResponse> listener) {
+        try {
+            executionEngine.execute(
+                    plan(
                             analyze(
-                                parse(request.getQuery()))), listener);
-    } catch (Exception e) {
-      listener.onFailure(e);
+                                    parse(request.getQuery()))), listener);
+        } catch (Exception e) {
+            listener.onFailure(e);
+        }
     }
-  }
 
-  /**
-   * Given physical plan, execute it and listen on response.
-   * @param plan        physical plan
-   * @param listener    callback listener
-   */
-  public void execute(PhysicalPlan plan, ResponseListener<QueryResponse> listener) {
-    try {
-      executionEngine.execute(plan, listener);
-    } catch (Exception e) {
-      listener.onFailure(e);
+    /**
+     * Parse, analyze, plan and execute the query.
+     *
+     * @param request SQL query request
+     */
+    public QueryResponse execute(SQLQueryRequest request) {
+        return executionEngine.execute(
+                plan(
+                        analyze(
+                                parse(request.getQuery()))));
     }
-  }
 
-  /**
-   * Given physical plan, explain it.
-   * @param plan        physical plan
-   * @param listener    callback listener
-   */
-  public void explain(PhysicalPlan plan, ResponseListener<ExplainResponse> listener) {
-    try {
-      executionEngine.explain(plan, listener);
-    } catch (Exception e) {
-      listener.onFailure(e);
+    /**
+     * Given physical plan, execute it and listen on response.
+     *
+     * @param plan     physical plan
+     * @param listener callback listener
+     */
+    public void execute(PhysicalPlan plan, ResponseListener<QueryResponse> listener) {
+        try {
+            executionEngine.execute(plan, listener);
+        } catch (Exception e) {
+            listener.onFailure(e);
+        }
     }
-  }
+    /**
+     * Given physical plan, execute it and listen on response.
+     *
+     * @param plan     physical plan
+     */
+    public QueryResponse execute(PhysicalPlan plan) {
+        return executionEngine.execute(plan);
+    }
 
-  /**
-   * Parse query and convert parse tree (CST) to abstract syntax tree (AST).
-   */
-  public UnresolvedPlan parse(String query) {
-    ParseTree cst = parser.parse(query);
-    return cst.accept(new AstBuilder(query));
-  }
+    /**
+     * Given physical plan, explain it.
+     *
+     * @param plan     physical plan
+     * @param listener callback listener
+     */
+    public void explain(PhysicalPlan plan, ResponseListener<ExplainResponse> listener) {
+        try {
+            executionEngine.explain(plan, listener);
+        } catch (Exception e) {
+            listener.onFailure(e);
+        }
+    }
 
-  /**
-   * Analyze abstract syntax to generate logical plan.
-   */
-  public LogicalPlan analyze(UnresolvedPlan ast) {
-    return analyzer.analyze(ast, new AnalysisContext());
-  }
+    /**
+     * Given physical plan, explain it.
+     *
+     * @param plan     physical plan
+     * @return
+     */
+    public ExplainResponse explain(PhysicalPlan plan) {
+        return executionEngine.explain(plan);
+    }
 
-  /**
-   * Generate optimal physical plan from logical plan.
-   */
-  public PhysicalPlan plan(LogicalPlan logicalPlan) {
-    return new Planner(storageEngine, LogicalPlanOptimizer.create(new DSL(repository)))
-        .plan(logicalPlan);
-  }
+    /**
+     * Parse query and convert parse tree (CST) to abstract syntax tree (AST).
+     */
+    public UnresolvedPlan parse(String query) {
+        ParseTree cst = parser.parse(query);
+        return cst.accept(new AstBuilder(query));
+    }
+
+    /**
+     * Analyze abstract syntax to generate logical plan.
+     */
+    public LogicalPlan analyze(UnresolvedPlan ast) {
+        return analyzer.analyze(ast, new AnalysisContext());
+    }
+
+    /**
+     * Generate optimal physical plan from logical plan.
+     */
+    public PhysicalPlan plan(LogicalPlan logicalPlan) {
+        return new Planner(storageEngine, LogicalPlanOptimizer.create(new DSL(repository)))
+                .plan(logicalPlan);
+    }
 
 }

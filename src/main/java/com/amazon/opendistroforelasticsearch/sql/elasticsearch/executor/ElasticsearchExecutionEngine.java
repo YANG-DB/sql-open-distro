@@ -26,67 +26,86 @@ import com.amazon.opendistroforelasticsearch.sql.executor.Explain;
 import com.amazon.opendistroforelasticsearch.sql.planner.physical.PhysicalPlan;
 import com.amazon.opendistroforelasticsearch.sql.storage.TableScanOperator;
 import com.google.common.collect.ImmutableMap;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import javax.inject.Inject;
 
-/** Elasticsearch execution engine implementation. */
+/**
+ * Elasticsearch execution engine implementation.
+ */
 public class ElasticsearchExecutionEngine implements ExecutionEngine {
 
-  private final ElasticsearchClient client;
+    private final ElasticsearchClient client;
 
-  private final ExecutionProtector executionProtector;
+    private final ExecutionProtector executionProtector;
 
-  @Inject
-  public ElasticsearchExecutionEngine(ElasticsearchClient client, ExecutionProtector executionProtector) {
-    this.client = client;
-    this.executionProtector = executionProtector;
-  }
+    @Inject
+    public ElasticsearchExecutionEngine(ElasticsearchClient client, ExecutionProtector executionProtector) {
+        this.client = client;
+        this.executionProtector = executionProtector;
+    }
 
-  @Override
-  public void execute(PhysicalPlan physicalPlan, ResponseListener<QueryResponse> listener) {
-    PhysicalPlan plan = executionProtector.protect(physicalPlan);
-    client.schedule(
-        () -> {
-          try {
-            List<ExprValue> result = new ArrayList<>();
-            plan.open();
-
-            while (plan.hasNext()) {
-              result.add(plan.next());
-            }
-
-            QueryResponse response = new QueryResponse(physicalPlan.schema(), result);
-            listener.onResponse(response);
-          } catch (Exception e) {
-            listener.onFailure(e);
-          } finally {
+    @Override
+    public QueryResponse execute(PhysicalPlan physicalPlan) {
+        PhysicalPlan plan = executionProtector.protect(physicalPlan);
+        try {
+            return run(physicalPlan, plan);
+        } finally {
             plan.close();
-          }
+        }
+
+    }
+
+    @Override
+    public void execute(PhysicalPlan physicalPlan, ResponseListener<QueryResponse> listener) {
+        PhysicalPlan plan = executionProtector.protect(physicalPlan);
+        client.schedule(() -> {
+            try {
+                QueryResponse response = run(physicalPlan, plan);
+                listener.onResponse(response);
+            } catch (Exception e) {
+                listener.onFailure(e);
+            } finally {
+                plan.close();
+            }
         });
-  }
+    }
 
-  @Override
-  public void explain(PhysicalPlan plan, ResponseListener<ExplainResponse> listener) {
-    client.schedule(() -> {
-      try {
-        Explain esExplain = new Explain() {
-          @Override
-          public ExplainResponseNode visitTableScan(TableScanOperator node, Object context) {
-            return explain(node, context, explainNode -> {
-              ElasticsearchIndexScan indexScan = (ElasticsearchIndexScan) node;
-              explainNode.setDescription(ImmutableMap.of(
-                  "request", indexScan.getRequest().toString()));
-            });
-          }
-        };
+    private QueryResponse run(PhysicalPlan physicalPlan, PhysicalPlan plan) {
+        List<ExprValue> result = new ArrayList<>();
+        plan.open();
 
-        listener.onResponse(esExplain.apply(plan));
-      } catch (Exception e) {
-        listener.onFailure(e);
-      }
-    });
-  }
+        while (plan.hasNext()) {
+            result.add(plan.next());
+        }
+
+        return new QueryResponse(physicalPlan.schema(), result);
+    }
+
+    @Override
+    public void explain(PhysicalPlan plan, ResponseListener<ExplainResponse> listener) {
+        client.schedule(() -> {
+            try {
+                listener.onResponse(explain(plan));
+            } catch (Exception e) {
+                listener.onFailure(e);
+            }
+        });
+    }
+
+    @Override
+    public ExplainResponse explain(PhysicalPlan plan) {
+        return new Explain() {
+            @Override
+            public ExplainResponseNode visitTableScan(TableScanOperator node, Object context) {
+                return explain(node, context, explainNode -> {
+                    ElasticsearchIndexScan indexScan = (ElasticsearchIndexScan) node;
+                    explainNode.setDescription(ImmutableMap.of(
+                            "request", indexScan.getRequest().toString()));
+                });
+            }
+        }.apply(plan);
+    }
 
 }
